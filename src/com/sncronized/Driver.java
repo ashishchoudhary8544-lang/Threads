@@ -39,7 +39,7 @@ public class Driver {
 		PrintThread p1 = new PrintThread(t);
 		p1.start();
 
-//		Task t1 = new Task(); // lock = 1 // Account 2
+		Task t1 = new Task(); // lock = 1 // Account 2
 		PrintThread p2 = new PrintThread(t);
 		p2.start();
 
