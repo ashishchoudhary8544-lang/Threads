@@ -3,13 +3,20 @@ package com.bank_account_sencronized;
 public class Driver {
 	public static void main(String[] args) {
 
-		Account1 a1 = new Account1();
+		BankAccount account1 = new BankAccount();
+		BankAccount account2 = new BankAccount();
+		Thread phonePay = new TransferThread1(account1, account2);
+		phonePay.start();
 
-		Thread t1 = new Thread(() -> a1.withrawl(900));
-		t1.start();
+		Thread gpay = new TransferThread2(account1, account2);
 
-		Thread t2 = new Thread(() -> a1.withrawl(90));
-		t2.start();
+		gpay.start();
+
+//		phonePay.join();
+//		gpay.join();
+
+		System.out.println("Account 1:"+account1.getBalance());
+		System.out.println("Account 2:"+account2.getBalance());
 
 	}
 
