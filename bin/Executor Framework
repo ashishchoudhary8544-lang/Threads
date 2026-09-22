@@ -1,0 +1,39 @@
+---------------------Topic 1: Executor Framework —------------------
+
+----> Why do we need it?
+
+Normally, we can create threads like this:
+
+Thread t1 = new Thread(() -> {
+    System.out.println("Task 1");
+});
+
+Thread t2 = new Thread(() -> {
+    System.out.println("Task 2");
+});
+
+t1.start();
+t2.start();
+
+This works, but imagine your backend receives 1,000 tasks.
+
+Creating 1,000 threads is not a good approach:
+
+1000 Tasks
+   ↓
+1000 Threads ❌
+   ↓
+High memory + overhead
+
+The Executor Framework solves this by managing threads for us.
+
+1000 Tasks
+    ↓
+ExecutorService
+    ↓
+Thread Pool
+ ┌────┬────┬────┐
+ T1   T2   T3   T4
+ └────┴────┴────┘
+
+Instead of creating a new thread for every task, we create a pool of reusable threads.

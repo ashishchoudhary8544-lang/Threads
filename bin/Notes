@@ -1,0 +1,408 @@
+| Thread                                                                   | Runnable                                                        |
+| ------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| It is a **class**.                                                       | It is an **interface**.                                         |
+| We use `extends Thread`.                                                 | We use `implements Runnable`.                                   |
+| We cannot extend another class because Java supports single inheritance. | We can extend another class because `Runnable` is an interface. |
+| Thread and task are in the **same class**.                               | Task and Thread are **separate**.                               |
+| Less flexible.                                                           | More flexible and generally preferred.                          |
+
+
+
+-> What is Thread class?
+Ans : Thread is a class in Java used to create and run a thread.
+
+                   Thread Class
+                         |
+        ┌────────────────┼─────────────────┐
+        ↓                ↓                 ↓
+   Thread Start       Thread Control    Thread Info
+        |                |                 |
+        ,   
+        
+        
+     start()           sleep()           getName()
+     run()             join()            setName()
+                       interrupt()       getId()
+                       yield()           isAlive()
+                       wait()*
+                       notify()*`
+                       notifyAll()*
+                       
+                       
+                       
+                       | Method        | Simple English Meaning                              
+| ------------- | --------------------------------------------------- |
+| `start()`     | Starts a new thread                                 |
+| `run()`       | Contains the task/code executed by the thread       |
+| `sleep()`     | Pauses the thread for a specific amount of time     |
+| `join()`      | Makes one thread wait until another thread finishes |
+| `yield()`     | Gives other threads a chance to execute             |
+| `interrupt()` | Interrupts a thread                                 |
+| `getName()`   | Returns the thread's name                           |
+| `setName()`   | Changes the thread's name                           |
+| `isAlive()`   | Checks whether the thread is still running          |
+| `getId()`     | Returns the thread's ID                             |
+                       
+                       
+                       | Method        | Simple meaning                                                
+| ------------- | ------------------------------------------------------------- |
+| `start()`     | New thread start karta hai                                    |
+| `run()`       | Thread ka task/code                                           |
+| `sleep()`     | Thread ko kuch time ke liye sleep karta hai                   |
+| `join()`      | Ek thread ko doosre thread ke finish hone tak wait karata hai |
+| `yield()`     | Current thread doosre threads ko chance deta hai              |
+| `interrupt()` | Thread ko interrupt karta hai                                 |
+| `getName()`   | Thread ka name deta hai                                       |
+| `setName()`   | Thread ka name change karta hai                               |
+| `isAlive()`   | Check karta hai thread running hai ya nahi                    |
+| `getId()`     | Thread ki ID deta hai                                         |
+          
+ - Note: wait(), notify(), notifyAll() technically Thread class ke methods nahi, Object class ke methods hain.
+   Threading mein use hote hain, isliye aksar saath mein discuss kiye jaate hain.     
+   
+   
+->  What is Runnable interface?
+Ans : Runnable is an interface in Java used to define the task that a thread will execute.
+
+       Runnable Interface
+              |
+              ↓
+        ┌─────────────┐
+        │   run()     │
+        └─────────────┘    
+
+Q:1  Runnable interface has one abstract method: run().
+Ans : Meaning: run() ke andar hum thread ka task/code likhte hain.
+
+-> Runnable's run() method has a void return type, so it cannot return a result.
+-> Callable's call() method can return a result and can throw checked exceptions.
+
+----------------------🔥 Java Multithreading Roadmap------------------
+
+1. Thread Basics ⭐⭐⭐
+What is a Thread?
+Process vs Thread
+Multitasking vs Multithreading
+Advantages of multithreading
+Main thread
+Thread name
+
+2. Creating Threads ⭐⭐⭐
+Extending Thread
+Implementing Runnable
+Callable
+Future
+FutureTask
+Thread
+ ├── Thread class
+ ├── Runnable
+ └── Callable
+ 
+3. Thread Methods ⭐⭐⭐
+
+You should know:
+
+start()
+run()
+sleep()
+join()
+yield()
+interrupt()
+isAlive()
+currentThread()
+setName()
+getName()
+
+4. Thread Lifecycle ⭐⭐⭐
+NEW
+ ↓
+RUNNABLE
+ ↓
+RUNNING
+ ↓
+BLOCKED / WAITING / TIMED_WAITING
+ ↓
+TERMINATED
+
+Important difference between:
+
+BLOCKED
+WAITING
+TIMED_WAITING
+
+5. Race Condition ⭐⭐⭐⭐⭐
+
+When multiple threads access and modify the same shared data and the final result becomes incorrect/unpredictable.
+
+count++;
+
+Two threads doing this simultaneously can cause problems.
+
+6. Synchronization ⭐⭐⭐⭐⭐
+synchronized
+synchronized method
+synchronized block
+object lock
+class lock
+intrinsic monitor
+
+Example:
+
+synchronized void increment() {
+    count++;
+}
+7. Lock ⭐⭐⭐⭐⭐
+
+Very important for backend interviews.
+
+Learn:
+
+Lock
+ReentrantLock
+lock()
+unlock()
+tryLock()
+lockInterruptibly()
+
+Example:
+
+Lock lock = new ReentrantLock();
+
+lock.lock();
+
+try {
+    count++;
+} finally {
+    lock.unlock();
+}
+
+8. volatile ⭐⭐⭐⭐
+
+Used for visibility between threads.
+
+volatile boolean running = true;
+volatile in Java ⭐⭐⭐⭐
+
+-> volatile is used in multithreading to make sure that when one thread changes a variable
+ other threads can see the latest value.
+
+Important:
+
+volatile provides visibility, but it does not make compound operations like count++ atomic.
+
+9. Atomic Classes ⭐⭐⭐⭐
+
+Learn:
+
+AtomicInteger
+AtomicLong
+AtomicBoolean
+
+Example:
+
+AtomicInteger count = new AtomicInteger(0);
+
+count.incrementAndGet();
+
+Useful when you need atomic operations without using synchronized for simple cases.
+
+10. Inter-Thread Communication ⭐⭐⭐⭐⭐
+
+Very important.
+
+Learn:
+
+wait()
+notify()
+notifyAll()
+
+Example:
+
+Producer
+    ↓
+ Shared Resource
+    ↓
+Consumer
+
+Remember:
+
+wait() releases the object's monitor/lock and waits.
+
+11. Producer–Consumer ⭐⭐⭐⭐⭐
+
+Modern approach:
+
+BlockingQueue<Integer> queue =
+        new ArrayBlockingQueue<>(5);
+
+Producer:
+
+queue.put(10);
+
+Consumer:
+
+int data = queue.take();
+
+Also learn:
+
+BlockingQueue
+ArrayBlockingQueue
+LinkedBlockingQueue
+12. Executor Framework ⭐⭐⭐⭐⭐
+
+Very important for real backend applications.
+
+Learn:
+
+Executor
+ExecutorService
+Executors
+submit()
+execute()
+shutdown()
+shutdownNow()
+
+Example:
+
+ExecutorService service =
+        Executors.newFixedThreadPool(5);
+
+service.submit(() -> {
+    System.out.println("Task running");
+});
+
+service.shutdown();
+13. Thread Pool ⭐⭐⭐⭐⭐
+
+Instead of creating a new thread for every request:
+
+1000 requests
+      ↓
+Thread Pool
+      ↓
+Reusable Threads
+
+Learn:
+
+Fixed Thread Pool
+Cached Thread Pool
+Scheduled Thread Pool
+Single Thread Executor
+
+And importantly:
+
+Why thread pools are better than creating unlimited threads.
+
+14. Callable & Future ⭐⭐⭐⭐
+
+Runnable doesn't return a result.
+
+Callable can return a result.
+
+Callable<Integer> task = () -> {
+    return 100;
+};
+
+Then:
+
+Future<Integer> future = executor.submit(task);
+
+Integer result = future.get();
+15. Concurrent Collections ⭐⭐⭐⭐⭐
+
+Very important for interviews.
+
+Learn:
+
+ConcurrentHashMap
+CopyOnWriteArrayList
+BlockingQueue
+ConcurrentLinkedQueue
+
+Especially:
+
+ConcurrentHashMap
+
+Multiple threads can work concurrently without locking the entire map for ordinary operations.
+
+16. Deadlock ⭐⭐⭐⭐⭐
+
+Two threads wait for each other's locks forever.
+
+Thread 1
+   ↓
+Lock A
+   ↓
+waiting for Lock B
+
+Thread 2
+   ↓
+Lock B
+   ↓
+waiting for Lock A
+
+Result:
+
+DEADLOCK ❌
+
+Learn:
+
+What is deadlock?
+How to detect it?
+How to prevent it?
+17. Starvation ⭐⭐⭐
+
+A thread keeps waiting because other threads continuously get the required resources.
+
+18. Livelock ⭐⭐⭐
+
+Threads are active but don't make useful progress.
+
+Difference:
+
+Deadlock → Threads are stuck/waiting
+
+Livelock → Threads are running but no progress
+19. Atomicity, Visibility & Ordering ⭐⭐⭐⭐⭐
+
+These are the core concepts behind concurrency.
+
+Atomicity
+
+Operation happens completely or not at all.
+
+Visibility
+
+One thread can see another thread's updated value.
+
+Ordering
+
+Order in which operations become visible to other threads.
+
+These three are very important for understanding:
+
+synchronized
+volatile
+AtomicInteger
+Lock
+20. Java Memory Model (JMM) ⭐⭐⭐⭐
+
+Learn the basic idea:
+
+Thread 1
+   ↓
+Working Memory
+   ↓
+     Main Memory
+   ↑
+Working Memory
+   ↑
+Thread 2
+
+Important terms:
+
+Main memory
+Thread working memory
+Visibility
+Happens-before relationship
+            
